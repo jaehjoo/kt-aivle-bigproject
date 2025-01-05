@@ -41,6 +41,7 @@ jobs:
         with:
           context: ${{ matrix.folder }}
           push: true
+          platforms: linux/amd64
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{matrix.folder}}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{matrix.folder}}:$(date)
