@@ -44,4 +44,4 @@ jobs:
           platforms: linux/amd64
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{matrix.folder}}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{matrix.folder}}:$(date)
+            ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{matrix.folder}}:${{ github.sha }}
