@@ -1,0 +1,46 @@
+name: workflows-go
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      folders: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            ai: 'requirements/ai/**'
+            back: 'requirements/back/**'
+            swagger: 'requirements/swagger/**'
+
+  build:
+    needs: changes
+    if: ${{ needs.changes.outputs.folders != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        folder: ${{ fromJson(needs.changes.outputs.folders) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Docker buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Log in to registry
+        uses: docker/login-action@v3
+        with:
+          registry: https://index.docker.io/v1/
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build and push image
+        uses: docker/build-push-actions@v4
+        with:
+          context: ${{ matrix.folder }}
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{matrix.folder}}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{matrix.folder}}:$(date)
