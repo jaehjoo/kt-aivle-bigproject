@@ -15,9 +15,9 @@ jobs:
         id: filter
         with:
           filters: |
-            ai: 'requirements/ai/**'
-            back: 'requirements/back/**'
-            swagger: 'requirements/swagger/**'
+            requirements/ai: 'requirements/ai/**'
+            requirements/back: 'requirements/back/**'
+            requirements/swagger: 'requirements/swagger/**'
 
   build:
     needs: changes
