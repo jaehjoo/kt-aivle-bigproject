@@ -43,5 +43,5 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{matrix.folder}}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{matrix.folder}}:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{ matrix.folder.split('/')[1] }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/bigproj_${{ matrix.folder.split('/')[1] }}:${{ github.sha }}
