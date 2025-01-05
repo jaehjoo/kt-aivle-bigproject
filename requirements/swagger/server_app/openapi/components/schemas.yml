@@ -1,0 +1,8 @@
+Hello:
+  type: object
+  properties:
+    message:
+      type: string
+      example: "hello"
+  required:
+    - message
